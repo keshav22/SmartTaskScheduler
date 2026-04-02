@@ -1,3 +1,5 @@
+'use client'
+
 import { apiClient } from '@/services/api'
 import { use } from 'react'
 
