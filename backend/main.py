@@ -1,11 +1,8 @@
 from fastapi import FastAPI
+from routers.task import router as task_router
 
 app = FastAPI()
 
+# Todo add authentication layer to check token of jwt expiration etc before going to controllers
 
-def main():
-    print("Hello from backend!")
-
-
-if __name__ == "__main__":
-    main()
+app.include_router(task_router)
