@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { TasksPageComponent } from '@/components/Tasks/tasks'
 import { SpinnerComponent } from '@/components/common/spinner'
 import { Suspense } from 'react'
