@@ -1,5 +1,5 @@
-import { FocusComponent } from '@/components/Focus/focus'
+import { TasksPageComponent } from '@/components/Tasks/tasks'
 
-export default function FocusPage() {
-  return <></>
+export default function TaskPage() {
+  return <TasksPageComponent />
 }

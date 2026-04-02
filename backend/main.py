@@ -1,11 +1,28 @@
+import os
 from fastapi import FastAPI
+from routers.task import router as task_router
+from fastapi.middleware.cors import CORSMiddleware
+from dotenv import load_dotenv
+
+
+ENV = os.getenv("APP_ENV", "development")
+dotenv_path = f".env.{ENV}"
+load_dotenv(dotenv_path)
+
+allowed_origins = os.getenv("CORS_ALLOWED_ORIGINS", "")
+
+origins = [origin.strip() for origin in allowed_origins.split(",") if origin.strip()]
 
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-def main():
-    print("Hello from backend!")
+# Todo add authentication layer to check token of jwt expiration etc before going to controllers
 
-
-if __name__ == "__main__":
-    main()
+app.include_router(task_router)

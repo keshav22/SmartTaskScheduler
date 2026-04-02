@@ -1,1 +1,7 @@
+<<<<<<< SM2-Task6
+.env*
+
+!.env.example
+=======
 /.env
+>>>>>>> main
