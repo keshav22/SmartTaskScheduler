@@ -2,7 +2,7 @@ class ApiClient {
   private baseUrl: string
 
   constructor() {
-    this.baseUrl = process.env.API_BASE_URL!
+    this.baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL!
   }
 
   async get<T>(endpoint: string): Promise<T> {

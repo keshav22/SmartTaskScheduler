@@ -1,7 +1,8 @@
 'use client'
 
 import { apiClient } from '@/services/api'
-import { use } from 'react'
+import { useEffect, useState } from 'react'
+import { SpinnerComponent } from '../common/spinner'
 
 interface Task {
   title: string
@@ -12,13 +13,32 @@ interface Task {
 
 // }
 export function TasksPageComponent() {
-  const tasks: Task[] = use(apiClient.get('/tasks'))
+  const [tasks, setTasks] = useState<Task[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    apiClient
+      .get('/tasks')
+      .then((res) => {
+        setTasks(res as Task[])
+      })
+      .catch((err) => {
+        console.error('Error fetching tasks:', err)
+      })
+      .finally(() => setLoading(false))
+  }, [])
 
   return (
     <div>
-      {tasks.map((task: Task, index: number) => {
-        return <div key={index}>{task.title}</div>
-      })}
+      {loading ? (
+        <div className="h-screen flex justify-center items-center">
+          <SpinnerComponent />
+        </div>
+      ) : (
+        tasks.map((task: Task, index: number) => {
+          return <div key={index}>{task.title}</div>
+        })
+      )}
     </div>
   )
 }

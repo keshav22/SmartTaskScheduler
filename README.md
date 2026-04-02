@@ -32,7 +32,20 @@ The backend is managed using **uv** for fast, reliable dependency management.
     uv sync
     ```
 
-3.  **Start the FastAPI server:**
+3.  **Run the below command and copy the template `.env.example` to `.env.development`**
+
+    ```bash
+    # Linux / macOS (bash/zsh)
+    export APP_ENV=development
+
+    # Windows CMD
+    set APP_ENV=development
+
+    # Windows PowerShell
+    $env:APP_ENV="development"
+    ```
+
+4.  **Start the FastAPI server:**
     ```bash
     uv run uvicorn main:app --reload
     ```
@@ -56,7 +69,8 @@ The frontend is a Next.js application managed by **pnpm**.
     pnpm install
     ```
 
-3.  **Start the development server:**
+3.  **Copy the template `.env.example` to `.env.local or .env`**
+4.  **Start the development server:**
     ```bash
     pnpm dev
     ```
