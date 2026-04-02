@@ -1,14 +1,21 @@
 import { apiClient } from '@/services/api'
 import { use } from 'react'
 
-interface TaskPageComponentProps {}
-export function TasksPageComponent({}: TaskPageComponentProps) {
-  const tasks: any[] = use(apiClient.get('/tasks'))
+interface Task {
+  title: string
+  description: string
+}
+
+// interface TaskPageComponentProps {
+
+// }
+export function TasksPageComponent() {
+  const tasks: Task[] = use(apiClient.get('/tasks'))
 
   return (
     <div>
-      {tasks.map((task: any) => {
-        return <div>{task.title}</div>
+      {tasks.map((task: Task, index: number) => {
+        return <div key={index}>{task.title}</div>
       })}
     </div>
   )
