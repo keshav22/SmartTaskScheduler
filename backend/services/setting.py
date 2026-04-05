@@ -13,7 +13,9 @@ async def update_settings_data(type: str, data: dict, user_id: int):
 
     elif type == "focus":
         #Update in db
-        return 1
+        
+        response = None
+        return response.data
 
     else:
         raise Exception("Invalid settings type")
