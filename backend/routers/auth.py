@@ -40,5 +40,5 @@ def login(data: AuthSchema, response: Response):
             samesite="lax",
         )
         return {"message": "Login Scuccessful"}
-    except Exception as e:
+    except Exception:
         raise HTTPException(status_code=401, detail="Invalid email or password")
