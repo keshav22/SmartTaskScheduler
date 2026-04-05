@@ -35,6 +35,22 @@ class ApiClient {
 
     return res.json()
   }
+
+  async patch<T>(endpoint: string, body: unknown): Promise<T> {
+    const res = await fetch(`${this.baseUrl}${endpoint}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    })
+
+    if (!res.ok) {
+      throw new Error(`API error: ${res.status}`)
+    }
+
+    return res.json()
+  }
 }
 
 const globalForApi = globalThis as unknown as {
