@@ -1,5 +1,5 @@
-from dotenv import load_dotenv
 import os
+from dotenv import load_dotenv
 from supabase import create_client, Client
 
 ENV = os.getenv("APP_ENV", "development")
