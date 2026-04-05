@@ -1,17 +1,12 @@
-from db.supabase import supabase
-
-
-async def update_settings_data(type: str, data: dict, user_id: int):
+async def update_settings_data(type: str, data: dict):
     if type == "profile":
-        response = supabase.table("users").update(data).eq("id", user_id).execute()
+        response = None
 
-        return response.data
+        return response
 
     elif type == "focus":
         # Update in db
-
-        response = None
-        return response.data
+        return 1
 
     else:
         raise Exception("Invalid settings type")
