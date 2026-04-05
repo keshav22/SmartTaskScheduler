@@ -5,7 +5,6 @@ from routers.setting import router as setting_router
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 
-
 ENV = os.getenv("APP_ENV", "development")
 dotenv_path = f".env.{ENV}"
 load_dotenv(dotenv_path)
