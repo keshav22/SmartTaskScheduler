@@ -1,6 +1,3 @@
-from db.supabase import supabase
-
-
 async def update_settings_data(type: str, data: dict):
     if type == "profile":
         response = None
