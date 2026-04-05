@@ -44,6 +44,7 @@ dependencies = [
     { name = "fastapi", extra = ["standard"] },
     { name = "pydantic-settings" },
     { name = "python-dotenv" },
+    { name = "ruff" },
     { name = "supabase" },
 ]
 
@@ -58,6 +59,7 @@ requires-dist = [
     { name = "fastapi", extras = ["standard"], specifier = ">=0.135.1" },
     { name = "pydantic-settings", specifier = ">=2.13.1" },
     { name = "python-dotenv", specifier = ">=1.2.2" },
+    { name = "ruff", specifier = ">=0.15.6" },
     { name = "supabase", specifier = ">=2.28.3" },
 ]
 
