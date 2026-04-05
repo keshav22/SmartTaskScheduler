@@ -6,6 +6,7 @@ import { apiClient } from '@/services/api'
 import './setting.css'
 
 type TabType = 'profile' | 'focus'
+type FormDataType = Record<string, string | boolean>
 
 interface SettingsFormComponentProps {
     activeTab: TabType
@@ -14,8 +15,8 @@ interface SettingsFormComponentProps {
 export function SettingsFormComponent({
     activeTab,
 }: SettingsFormComponentProps) {
-    const [formData, setFormData] = useState<any>({})
-    const [loading, setLoading] = useState(false)
+    const [formData, setFormData] = useState<FormDataType>({})
+    const [loading, setLoading] = useState<boolean>(false)
 
     const formConfig: Record<
         TabType,
@@ -77,7 +78,7 @@ export function SettingsFormComponent({
                                     type={field.type}
                                     className="input"
                                     onChange={(e) =>
-                                        setFormData((prev: any) => ({
+                                        setFormData((prev) => ({
                                             ...prev,
                                             [field.name]: e.target.value,
                                         }))
