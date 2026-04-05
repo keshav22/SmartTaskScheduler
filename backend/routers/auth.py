@@ -11,7 +11,7 @@ class AuthSchema(BaseModel):
 @router.post("/signup")
 def signup(data: AuthSchema):
     try:
-        response = supabase.auth.sign_up({"email": data.email, "password": data.password})
+        # response = supabase.auth.sign_up({"email": data.email, "password": data.password})
         return {"message": "User created successfully"}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
