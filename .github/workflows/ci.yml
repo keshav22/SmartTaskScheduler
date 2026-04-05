@@ -67,35 +67,19 @@ jobs:
       - name: Run Tests
         run: uv run pytest || [ $? -eq 5 ]
 
-    final-check:
+  final-check:
     name: "Final CI Status"
-    needs: [changes, frontend-ci, backend-ci]
+    needs: [frontend-ci, backend-ci]
     if: always()
     runs-on: ubuntu-latest
     steps:
       - name: Evaluate Results
         run: |
-          FRONTEND_CHANGED="${{ needs.changes.outputs.frontend }}"
-          BACKEND_CHANGED="${{ needs.changes.outputs.backend }}"
-
           FE_RESULT="${{ needs.frontend-ci.result }}"
           BE_RESULT="${{ needs.backend-ci.result }}"
 
-          echo "frontend changed: $FRONTEND_CHANGED, result: $FE_RESULT"
-          echo "backend changed:  $BACKEND_CHANGED, result: $BE_RESULT"
-
-          FE_OK=true
-          BE_OK=true
-
-          if [[ "$FRONTEND_CHANGED" == "true" ]]; then
-            [[ "$FE_RESULT" == "success" ]] && FE_OK=true || FE_OK=false
-          fi
-
-          if [[ "$BACKEND_CHANGED" == "true" ]]; then
-            [[ "$BE_RESULT" == "success" ]] && BE_OK=true || BE_OK=false
-          fi
-
-          if [[ "$FE_OK" == "true" && "$BE_OK" == "true" ]]; then
+          # Success if (Success OR Skipped) AND (Success OR Skipped)
+          if [[ ($FE_RESULT == "success" || $FE_RESULT == "skipped") && ($BE_RESULT == "success" || $BE_RESULT == "skipped") ]]; then
             echo "All relevant checks passed!"
             exit 0
           else
