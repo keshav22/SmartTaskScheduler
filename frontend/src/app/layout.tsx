@@ -1,12 +1,11 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import { LeftPanel } from '@/components/Navbar/left_panel'
 import { Inter, Geist } from 'next/font/google'
-import { cn } from "@/lib/utils"
+import { cn } from '@/lib/utils'
 import NavWrapper from './NavBarWrapper'
 import React from 'react'
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+const geist = Geist({ subsets: ['latin'], variable: '--font-sans' })
 
 export const metadata: Metadata = {
   title: 'FocusFlow',
@@ -24,11 +23,9 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={cn("font-sans", geist.variable)}>
+    <html lang="en" className={cn('font-sans', geist.variable)}>
       <body className={`${inter.className} antialiased bg-[#f9f9f9]`}>
-        <NavWrapper>
-          {children}
-        </NavWrapper>
+        <NavWrapper>{children}</NavWrapper>
       </body>
     </html>
   )
