@@ -38,7 +38,16 @@ export function TasksPageComponent() {
       .finally(() => setLoading(false))
   }, [])
 
-  const bulkDelete = () => {}
+  const bulkDelete = async () => {
+    apiClient.delete('/tasks/delete', { ids: checkedTaskListIds }).then(() => {
+      setTasks(
+        tasks.filter(
+          (x: Task) => !checkedTaskListIds.includes(x.task_id.toString()),
+        ),
+      )
+      setCheckedTaskListIds([])
+    })
+  }
 
   return (
     <div>
