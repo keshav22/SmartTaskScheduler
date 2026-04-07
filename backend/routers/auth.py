@@ -39,6 +39,6 @@ def login(data: AuthSchema, response: Response):
             max_age=3600,  # 1 hour
             samesite="lax",
         )
-        return {"message": "Login Scuccessful"}
+        return {"message": "Login Successful"}
     except Exception:
         raise HTTPException(status_code=401, detail="Invalid email or password")

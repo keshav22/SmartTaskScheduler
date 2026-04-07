@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import './globals.css'
 import { LeftPanel } from '@/components/Navbar/left_panel'
 import { Inter } from 'next/font/google'
+import NavWrapper from './NavBarWrapper'
+import React from 'react'
 
 export const metadata: Metadata = {
   title: 'FocusFlow',
@@ -21,8 +23,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} antialiased bg-[#f9f9f9]`}>
-        <LeftPanel />
-        <div className="pl-66">{children}</div>
+        <NavWrapper>
+          {children}
+        </NavWrapper>
       </body>
     </html>
   )
