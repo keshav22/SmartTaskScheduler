@@ -1,0 +1,249 @@
+/* Tabs Wrapper (optional improvement) */
+.tabs-wrapper {
+    width: 280px;
+    min-width: 240px;
+    max-width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px;
+    border-right: 1px solid #f0f0f0;
+  }
+  
+  /* Base button = INACTIVE tab */
+.button {
+    width: 100%;
+    height: 44px;
+    padding: 0 12px;
+  
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  
+    font-family: Inter, sans-serif;
+    font-size: 14px;
+    line-height: 22px;
+    font-weight: 500;
+  
+    color: #546464;              /* muted text */
+    background: transparent;     /* no background */
+  
+    border: none;
+    border-radius: 12px;
+  
+    gap: 12px;
+    cursor: pointer;
+  
+    transition: all 0.2s ease;
+  }
+  
+  /* Hover (inactive stays subtle) */
+  .button:hover {
+    background: #00000008;  /* light hover instead of none */
+  }
+  
+  /* Active tab */
+  .button.active {
+    background: #25F4F433;
+    border-left: 3px solid #25F4F4;
+  }
+  
+  /* Click (pressed) */
+  .button:active {
+    transform: scale(0.98);
+  }
+  
+  /* Disabled */
+  .button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+
+  /* Form Wrapper (outer layout) */
+.form-wrapper {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 24px;
+  }
+  
+  /* Container (your main card) */
+  .container {
+    width: 100%;
+    max-width: 784px;
+    min-height: 400px;
+  
+    background: #ffffff;
+    border-radius: 12px;
+  
+    box-shadow: 0px 2px 4px #00000012;
+  
+    padding: 24px;
+  
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Form layout */
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  /* Field wrapper */
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  
+  /* Label */
+  .label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
+  }
+  
+  /* Input */
+  .input {
+    height: 40px;
+    padding: 8px 12px;
+  
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+  
+    outline: none;
+    font-size: 14px;
+  
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  /* Input focus */
+  .input:focus {
+    border-color: #25F4F4;
+    box-shadow: 0 0 0 2px #25F4F433;
+  }
+  
+  /* Checkbox */
+  .checkbox {
+    width: 16px;
+    height: 16px;
+    accent-color: #25F4F4;
+  }
+  
+  /* Submit button (reuse your tab style) */
+  .submit-button {
+    margin-top: 12px;
+    height: 44px;
+  
+    border-radius: 12px;
+    border: none;
+  
+    background: #25F4F4;
+    color: #000;
+  
+    font-weight: 600;
+    cursor: pointer;
+  
+    transition: all 0.2s ease;
+  }
+  
+  .submit-button:hover {
+    opacity: 0.9;
+  }
+  
+  .submit-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* Fix browser autofill styles */
+input:-webkit-autofill {
+    box-shadow: 0 0 0 1000px white inset !important;
+    -webkit-text-fill-color: black !important;
+    border: 1px solid #e5e7eb;
+  }
+
+  .input {
+    height: 40px;
+    padding: 8px 12px;
+  
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+  
+    outline: none;
+    font-size: 14px;
+  
+    background: white; /* important */
+    color: black;       /* important */
+  
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  /* Page container */
+.settings-page {
+    display: flex;
+    position: relative; /* 🔥 THIS keeps everything scoped */
+    min-height: 100%;
+  }
+  
+  /* Sidebar */
+  .settings-sidebar {
+    width: 260px;
+    transition: transform 0.3s ease;
+  }
+  
+  /* Content */
+  .settings-content {
+    flex: 1;
+    padding: 24px;
+  }
+  
+  /* Toggle button */
+  .settings-toggle {
+    position: absolute;
+    top: 20px;
+    left: 0;
+  
+    z-index: 10;
+  
+    width: 28px;
+    height: 28px;
+  
+    border-radius: 50%;
+    border: 1px solid #e5e7eb;
+    background: white;
+  
+    cursor: pointer;
+    box-shadow: 0px 2px 4px #00000012;
+  }
+  
+  /* 📱 Small screens behavior */
+  @media (max-width: 768px) {
+    .settings-sidebar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+  
+      background: white;
+      z-index: 20;
+  
+      box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+    }
+  
+    .settings-sidebar.closed {
+      transform: translateX(-100%);
+    }
+  
+    .settings-sidebar.open {
+      transform: translateX(0);
+    }
+  
+    .settings-content {
+      width: 100%;
+    }
+  }

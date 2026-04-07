@@ -1,9 +1,10 @@
 import os
 from fastapi import FastAPI
 from routers.task import router as task_router
+from routers.auth import router as auth_router
+from routers.setting import router as setting_router
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
-
 
 ENV = os.getenv("APP_ENV", "development")
 dotenv_path = f".env.{ENV}"
@@ -25,4 +26,6 @@ app.add_middleware(
 
 # Todo add authentication layer to check token of jwt expiration etc before going to controllers
 
+app.include_router(auth_router)
 app.include_router(task_router)
+app.include_router(setting_router)
