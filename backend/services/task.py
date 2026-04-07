@@ -11,5 +11,6 @@ async def get_all_tasks(user_id):
         .execute()
     )
 
+
 async def create_task(user_id, task_data):
     pass

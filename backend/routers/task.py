@@ -9,7 +9,8 @@ async def get_tasks():
     tasks = await get_all_tasks(2)
     return tasks.data
 
+
 @router.post("/")
 async def add_task(task_data: dict):
-    response = await create_task(2,task_data)
+    response = await create_task(2, task_data)
     return response
