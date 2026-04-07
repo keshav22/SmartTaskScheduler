@@ -1,5 +1,6 @@
 from db.supabase import supabase
 
+
 async def get_all_tasks(user_id):
     return (
         supabase.table("tasks")
@@ -14,8 +15,10 @@ async def get_all_tasks(user_id):
 async def create_task(user_id, task_data):
     pass
 
+
 async def edit_task(user_id, task_id, task_data):
     pass
+
 
 async def get_task(user_id, task_id):
     pass

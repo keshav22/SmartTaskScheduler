@@ -15,10 +15,12 @@ async def add_task(task_data: dict):
     response = await create_task(2, task_data)
     return response
 
+
 @router.patch("/{task_id}")
 async def update_task(task_id: int, task_data: dict):
     response = await edit_task(2, task_id, task_data)
     return response
+
 
 @router.get("/{task_id}")
 async def get_task(task_id: int):
