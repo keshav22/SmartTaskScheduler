@@ -16,6 +16,10 @@ async def create_task(user_id, task_data):
     pass
 
 
+async def edit_task(user_id, task_id, task_data):
+    pass
+
+
 async def delete_task(user_id, ids):
     task_ids = [int(i) for i in ids]
 
