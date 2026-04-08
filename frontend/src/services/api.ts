@@ -10,6 +10,7 @@ class ApiClient {
       headers: {
         'Content-Type': 'application/json',
       },
+      credentials: 'include',
       cache: 'no-store',
     })
 
@@ -26,6 +27,7 @@ class ApiClient {
       headers: {
         'Content-Type': 'application/json',
       },
+      credentials: 'include',
       body: JSON.stringify(body),
     })
 
@@ -42,6 +44,7 @@ class ApiClient {
       headers: {
         'Content-Type': 'application/json',
       },
+      credentials: 'include',
       body: JSON.stringify(body),
     })
 
@@ -57,6 +60,7 @@ class ApiClient {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
+        credentials: 'include',
       },
       body: JSON.stringify(body),
     })

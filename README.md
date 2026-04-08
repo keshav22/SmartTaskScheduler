@@ -45,11 +45,11 @@ The backend is managed using **uv** for fast, reliable dependency management.
     $env:APP_ENV="development"
     ```
 
-4.  **Start the FastAPI server:**
+4.  **Start the FastAPI server: the below command with \***localhost**\* is important for login to function correctly**
     ```bash
-    uv run uvicorn main:app --reload
+    uv run uvicorn main:app --reload --host localhost
     ```
-    _The API will be live at `http://127.0.0.1:8000`_
+    _The API will be live at `http://localhost:8000`_
 
 ---
 

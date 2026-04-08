@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Response
+from fastapi import Request, APIRouter, HTTPException, Response
 from pydantic import BaseModel
 from db.supabase import supabase
 
@@ -36,9 +36,17 @@ def login(data: AuthSchema, response: Response):
             key="sb-access-token",
             value=res.session.access_token,
             httponly=True,  # security - JS cannot steal this cookie
+            secure=True,
+            path="/",
             max_age=3600,  # 1 hour
-            samesite="lax",
+            samesite="none",
         )
         return {"message": "Login Successful"}
     except Exception:
         raise HTTPException(status_code=401, detail="Invalid email or password")
+
+
+@router.get("/me")
+async def get_current_user(request: Request):
+    if hasattr(request.state, "user"):
+        return {"logged_in": True, "user": request.state.user}
