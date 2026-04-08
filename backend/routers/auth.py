@@ -50,3 +50,13 @@ def login(data: AuthSchema, response: Response):
 async def get_current_user(request: Request):
     if hasattr(request.state, "user"):
         return {"logged_in": True, "user": request.state.user}
+
+
+@router.post("/logout")
+def logout(response: Response):
+    response.delete_cookie(
+        key="sb-access-token",
+        httponly=True,
+        samesite="lax",
+    )
+    return {"message": "Successfully logged out"}
