@@ -1,4 +1,4 @@
-import { cn } from '@/utils/css'
+import { cn } from '@/lib/utils'
 import { ReactNode } from 'react'
 
 interface ButtonComponentProps {

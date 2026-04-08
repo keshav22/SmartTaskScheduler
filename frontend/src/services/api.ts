@@ -51,6 +51,22 @@ class ApiClient {
 
     return res.json()
   }
+
+  async delete<T>(endpoint: string, body: unknown): Promise<T> {
+    const res = await fetch(`${this.baseUrl}${endpoint}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    })
+
+    if (!res.ok) {
+      throw new Error(`API error: ${res.status}`)
+    }
+
+    return res.json()
+  }
 }
 
 const globalForApi = globalThis as unknown as {
