@@ -16,6 +16,7 @@ export default function proxy(request: NextRequest) { // Added 'default'
         return NextResponse.redirect(url);
     }
     console.log("Path:", pathname, "Has Token:", !!token);
+    console.log("Token: ", token);
 
     return NextResponse.next();
 }

@@ -1,5 +1,5 @@
 import { TasksPageComponent } from '@/components/Tasks/tasks'
 
-export default function TaskPage() {
+export default function FocusPage() {
   return <TasksPageComponent />
 }

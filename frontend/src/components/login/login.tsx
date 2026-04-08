@@ -34,8 +34,9 @@ export default function AuthForm(){
 
             if (res.ok){
                 if (isLogin){
-                    router.push("/focus");
-                    router.refresh();
+                    // router.push("/focus");
+                    // router.refresh();
+                    window.location.href = "/focus";
                 }
                 else{
                     alert("Account created! Please log in.");
@@ -51,51 +52,41 @@ export default function AuthForm(){
             setError("Cannot connect to backend server.");
         }
     };
+    
     return (
-        <div className="p-8 border rounded-lg shadow-lg max-w-md mx-auto mt-20">
-            <h2 className="text-xl font-bold mb-4">{isLogin ? "Login" : "Sign Up"}</h2>
+        <div className="flex flex-col items-center mt-20">
+            <h1 className="text-4xl font-extrabold text-[#25F4F4] mb-8">
+                FocusFlow
+            </h1>
+        
+        <div className="p-8 border rounded-lg shadow-lg max-w-md mx-auto">
+            <h2 className="text-xl font-bold text-center mb-4 text-[#25F4F4]">{isLogin ? "Login" : "Sign Up"}</h2>
             {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
             <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-                <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} className="p-2 border rounded" required />
-                <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} className="p-2 border rounded" required />
-                <button type="submit" className="bg-blue-600 text-white p-2 rounded">
+                <input 
+                    type="email" 
+                    placeholder="Email" 
+                    value={email} 
+                    onChange={(e) => setEmail(e.target.value)} 
+                    className="p-2 border rounded text-black" 
+                    required 
+                />
+                <input 
+                    type="password" 
+                    placeholder="Password" 
+                    value={password} 
+                    onChange={(e) => setPassword(e.target.value)} 
+                    className="p-2 border rounded text-black" 
+                    required 
+                    />
+                <button type="submit" className="bg-[#25F4F4] text-white p-2 rounded ">
                     {isLogin ? "Sign In" : "Register"}
                 </button>
             </form>
-            <button onClick={() => { setIsLogin(!isLogin); resetForm(); }} className="mt-4 text-sm text-blue-500 hover:underline">
+            <button onClick={() => { setIsLogin(!isLogin); resetForm(); }} className="mt-4 text-sm text-center mb-4 text-[#25F4F4] hover:underline">
                 {isLogin ? "Don't have an account? Sign up" : "Have an account? Log in"}
             </button>
         </div>
+        </div>
     );
 }
-// import React, { use, useState } from "react";
-
-// export default function LoginForm(){
-//     const [email, setEmail] = useState("");
-
-//     const handleLogin = async(e: React.FormEvent) => {
-//         e.preventDefault();
-//         // API call logic
-//         console.log("Logging in with:", email);
-//     };
-
-//     return (
-//         <div className="flex flex-col gap-4 p-8 border rounded-lg shadow-sm">
-//             <h1 className="text-2xl font-bold">FocusFlow</h1>
-//             <form onSubmit={handleLogin} className="flex flex-col gap-2">
-//                 <input
-//                     type="email"
-//                     placeholder="Email"
-//                     className="p-2 border rounded"
-//                     value={email}
-//                     onChange={(e) => setEmail(e.target.value)}
-//                 />
-//                 <button type="submit" className="bg-blue-500 text-white p-2 rounded">
-//                     Sign In
-//                 </button>
-//             </form>
-//         </div>
-//     );
-// }
-
-
