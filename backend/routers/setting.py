@@ -3,6 +3,7 @@ from services.setting import update_settings_data
 
 router = APIRouter()
 
+
 @router.patch("/settings/{type}")
 async def update_settings(type: str, data: dict):
     try:
