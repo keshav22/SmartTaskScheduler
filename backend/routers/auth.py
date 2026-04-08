@@ -42,3 +42,14 @@ def login(data: AuthSchema, response: Response):
         return {"message": "Login Successful"}
     except Exception:
         raise HTTPException(status_code=401, detail="Invalid email or password")
+
+@router.post("/logout")
+def logout(response: Response):
+    response.delete_cookie(
+        key="sb-access-token",
+        # value="",
+        httponly=True,
+        # max_age=0,
+        samesite="lax",
+    )
+    return {"message": "Successfully logged out"}
