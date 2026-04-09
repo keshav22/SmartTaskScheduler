@@ -23,17 +23,18 @@ def signup(data: AuthSchema):
 
         user_uuid = response.user.id
         user_email = response.user.email
+
         supabase.table("users").insert(
             {
                 "id": user_uuid,
                 "email": user_email,
-                "daily_free_time": 4,  # Your defaults
+                "daily_free_time": 4,  # some default value
                 "session_duration": 25,
                 "break_duration": 5,
             }
         ).execute()
 
-        return {"message": "Signup successful! Profile and settings initialized."}
+        return {"message": "Signup successful"}
     except Exception as e:
         print(f"Detailed Signup Error: {e}")
         raise HTTPException(status_code=400, detail="Database error during signup")
