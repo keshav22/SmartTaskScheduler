@@ -20,16 +20,18 @@ def signup(data: AuthSchema):
             raise HTTPException(
                 status_code=400, detail="User already exists or signup failed."
             )
-        
-        user_uuid = response.user.id 
+
+        user_uuid = response.user.id
         user_email = response.user.email
-        supabase.table("users").insert({
-            "id": user_uuid, 
-            "email": user_email,
-            "daily_free_time": 4,      # Your defaults
-            "session_duration": 25,
-            "break_duration": 5,
-        }).execute()
+        supabase.table("users").insert(
+            {
+                "id": user_uuid,
+                "email": user_email,
+                "daily_free_time": 4,  # Your defaults
+                "session_duration": 25,
+                "break_duration": 5,
+            }
+        ).execute()
 
         return {"message": "Signup successful! Profile and settings initialized."}
     except Exception as e:
