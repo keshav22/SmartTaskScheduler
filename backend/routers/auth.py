@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Response
+from fastapi import Request, APIRouter, HTTPException, Response
 from pydantic import BaseModel
 from db.supabase import supabase
 
@@ -21,9 +21,23 @@ def signup(data: AuthSchema):
                 status_code=400, detail="User already exists or signup failed."
             )
 
+        user_uuid = response.user.id
+        user_email = response.user.email
+
+        supabase.table("users").insert(
+            {
+                "id": user_uuid,
+                "email": user_email,
+                "daily_free_time": 4,  # some default value
+                "session_duration": 25,
+                "break_duration": 5,
+            }
+        ).execute()
+
         return {"message": "Signup successful"}
     except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
+        print(f"Detailed Signup Error: {e}")
+        raise HTTPException(status_code=400, detail="Database error during signup")
 
 
 @router.post("/login")
@@ -36,12 +50,20 @@ def login(data: AuthSchema, response: Response):
             key="sb-access-token",
             value=res.session.access_token,
             httponly=True,  # security - JS cannot steal this cookie
+            secure=True,
+            path="/",
             max_age=3600,  # 1 hour
-            samesite="lax",
+            samesite="none",
         )
         return {"message": "Login Successful"}
     except Exception:
         raise HTTPException(status_code=401, detail="Invalid email or password")
+
+
+@router.get("/me")
+async def get_current_user(request: Request):
+    if hasattr(request.state, "user"):
+        return {"logged_in": True, "user": request.state.user}
 
 
 @router.post("/logout")
