@@ -4,7 +4,7 @@ export type Task = {
   description: string
   start_time: string
   duration: number
-  priority: number
+  priority: string
   deadline: string
   status: string
   dependencies: string[] | null
