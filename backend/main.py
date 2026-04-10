@@ -103,7 +103,7 @@ def run_scheduler_midnight():
 
 
 scheduler = BackgroundScheduler()
-scheduler.add_job(schedule_for_next_day, "cron", hour=0, minute=0)
+scheduler.add_job(run_scheduler_midnight, "cron", hour=0, minute=0)
 scheduler.start()
 
 
