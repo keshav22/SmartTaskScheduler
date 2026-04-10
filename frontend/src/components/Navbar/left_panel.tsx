@@ -1,12 +1,21 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { PanelItem } from './panel_item'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 
 export function LeftPanel() {
   const [activeItem, setActiveItem] = useState(1)
   const router = useRouter()
+
+  const pathname = usePathname()
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    if (pathname.startsWith('/focus')) {
+      setActiveItem(2)
+    }
+  }, [pathname])
 
   const handleLogout = async () => {
     try {

@@ -123,6 +123,7 @@ export function FocusComponent() {
       .get(url)
       .then((res) => {
         const response = res as FocusResponse
+
         if (set) {
           if (response.current_task) {
             setCurrentTask(response.current_task)
@@ -146,8 +147,31 @@ export function FocusComponent() {
       .finally(() => setLoading(false))
   }
 
+  const executeTimer = () => {
+    timerKey.current = setInterval(() => {
+      dispatch({ type: 'TICK' })
+    }, 1000)
+  }
+
+  const onStartPause = () => {
+    if (state.timerRunning) {
+      if (timerKey.current) clearInterval(timerKey.current)
+      dispatch({ type: 'PAUSE' })
+    } else {
+      dispatch({ type: 'START' })
+      dispatch({ type: 'TICK' })
+      executeTimer()
+    }
+  }
+
   useEffect(() => {
+    if (task_id) {
+      onStartPause()
+    }
     fetch_details()
+    return () => {
+      if (timerKey.current) clearInterval(timerKey.current)
+    }
   }, [])
 
   const getFormattedTime = () => {
@@ -166,32 +190,9 @@ export function FocusComponent() {
     return `${strMinutes}:${strSeconds}`
   }
 
-  const executeTimer = () => {
-    timerKey.current = setInterval(() => {
-      dispatch({ type: 'TICK' })
-    }, 1000)
-  }
-
-  const onStartPause = () => {
-    if (state.timerRunning) {
-      if (timerKey.current) clearInterval(timerKey.current)
-      dispatch({ type: 'PAUSE' })
-    } else {
-      dispatch({ type: 'START' })
-      dispatch({ type: 'TICK' })
-      executeTimer()
-    }
-  }
-
   const onReload = () => {
     dispatch({ type: 'RELOAD' })
   }
-
-  useEffect(() => {
-    return () => {
-      if (timerKey.current) clearInterval(timerKey.current)
-    }
-  }, [])
 
   const handleNextTask = () => {
     apiClient
@@ -199,13 +200,18 @@ export function FocusComponent() {
       .then((res) => {
         dispatch({ type: 'RESET' })
         if (timerKey.current) clearInterval(timerKey.current)
-        setCurrentTask(nextTask)
+
         if (nextTask) {
           setTotalSession(Math.ceil(nextTask.duration! / time))
+          setCurrentTask(nextTask)
           fetch_details(false)
         }
 
         setTotalTasksLeft(totalTasksLeft - 1)
+        if (totalTasksLeft - 1 < 0) {
+          setCurrentTask(null)
+          setNextTask(null)
+        }
       })
       .catch((err) => {
         console.error('Error fetching tasks:', err)

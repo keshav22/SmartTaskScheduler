@@ -6,6 +6,7 @@ async def get_focus_page_details(user_id, task_id):
     current_task = None
     next_task = None
     total_tasks = None
+
     if task_id:
         resp = await get_task(user_id, task_id)
         current_task = resp.data[0]
@@ -19,7 +20,10 @@ async def get_focus_page_details(user_id, task_id):
         current_task = tasks[0]
 
     if len(tasks) > 1:
-        next_task = tasks[1]
+        if tasks[0]["task_id"] != task_id:  # type: ignore
+            next_task = tasks[0]
+        else:
+            next_task = tasks[1]
 
     user_setting_resp = await get_user_focus_settings(user_id)
     user_setting = user_setting_resp.data[0]
