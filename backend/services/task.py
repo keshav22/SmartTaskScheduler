@@ -16,10 +16,16 @@ async def get_all_tasks(user_id):
 
 
 async def get_task(user_id, task_id):
-    return supabase.table("tasks").select("""
+    return (
+        supabase.table("tasks")
+        .select("""
         task_id, title, description, start_time, duration, 
         priority, deadline, status, dependencies
-    """).eq("user_id", user_id).eq("task_id", task_id).execute()
+    """)
+        .eq("user_id", user_id)
+        .eq("task_id", task_id)
+        .execute()
+    )
 
 
 async def create_task(user_id, task_data):
