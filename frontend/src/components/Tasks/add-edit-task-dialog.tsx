@@ -211,7 +211,7 @@ export default function AddEditTaskDialog({
           </div>
 
           <div className="space-y-1">
-            <Label htmlFor="deadline">Due Date</Label>
+            <Label htmlFor="deadline">Deadline</Label>
             <Input
               id="deadline"
               type="datetime-local"
