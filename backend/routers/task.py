@@ -8,7 +8,6 @@ from services.task import (
     mark_task_done,
 )
 from pydantic import BaseModel
-from services.scheduler import schedule_for_next_day
 
 router = APIRouter(prefix="/tasks", tags=["tasks"])
 
@@ -55,8 +54,11 @@ async def delete_tasks(request: Request, payload: DeletePayload):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.post("/run-global-scheduler")
-async def trigger_global():
-    # This manually fires the exact same function the midnight clock uses
-    schedule_for_next_day()
-    return {"status": "Global scheduling triggered for all users"}
+# @router.post("/run-global-scheduler")
+# async def trigger_global():
+#     # Now it's a clean import from services
+#     results = run_scheduler_midnight()
+#     return {
+#         "status": "Global scheduling triggered for all users",
+#         "processed": len(results)
+#     }
