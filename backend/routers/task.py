@@ -8,7 +8,6 @@ from services.task import (
     mark_task_done,
 )
 from pydantic import BaseModel
-from services.scheduler import schedule_for_next_day, run_scheduler_midnight
 
 router = APIRouter(prefix="/tasks", tags=["tasks"])
 

@@ -1,5 +1,4 @@
 from services.scheduler import run_scheduler_midnight
-import os
 
 if __name__ == "__main__":
     print("🚀 Manually triggering the scheduler for all users...")
