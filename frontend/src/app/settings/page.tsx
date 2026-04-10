@@ -10,11 +10,14 @@ export default function SettingsPage() {
   )
 
   return (
-    <div className='pt-6'>
+    <div className='pt-6 flex flex-col overflow-hidden'>
         <h1 className="text-2xl font-semibold text-black mb-4 ml-4">
           Settings
         </h1>
-      <div className="flex v-screen">
+        <p className='mb-4 ml-4 text-xs text-gray-500'>
+        Manage your account, focus habits, and system integrations.
+        </p>
+      <div className="flex v-screen overflow-hidden">
         <SettingsTabsComponent
           activeTab={activeTab}
           setActiveTab={setActiveTab}

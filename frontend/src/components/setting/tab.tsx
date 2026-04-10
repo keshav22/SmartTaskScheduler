@@ -15,7 +15,6 @@ export function SettingsTabsComponent({
 }: SettingsTabsComponentProps) {
   const tabs: { label: string; value: TabType }[] = [
     { label: 'Profile details', value: 'profile' },
-    { label: 'Focus Rhythms', value: 'focus' },
   ]
 
   return (

@@ -1,3 +1,7 @@
+html, body, #root {
+  height: 100%;
+}
+
 /* Tabs Wrapper (optional improvement) */
 .tabs-wrapper {
     width: 280px;
@@ -95,9 +99,9 @@
   
   /* Field wrapper */
   .field {
-    display: flex;
-    flex-direction: column;
+    display: block;
     gap: 6px;
+    margin-left: 16px;
   }
   
   /* Label */
@@ -105,6 +109,7 @@
     font-size: 14px;
     font-weight: 500;
     color: #374151;
+    margin-right: 15px;
   }
   
   /* Input */
