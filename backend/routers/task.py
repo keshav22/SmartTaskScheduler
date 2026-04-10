@@ -52,3 +52,9 @@ async def delete_tasks(request: Request, payload: DeletePayload):
         return {"success": True, "data": response}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+@router.post("/run-global-scheduler")
+async def trigger_global():
+    # This manually fires the exact same function the midnight clock uses
+    run_global_midnight_schedule()
+    return {"status": "Global scheduling triggered for all users"}

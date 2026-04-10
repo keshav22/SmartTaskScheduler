@@ -10,6 +10,13 @@ from routers.setting import router as setting_router
 from routers.focus import router as focus_router
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
+from apscheduler.schedulers.background import BackgroundScheduler
+from services.scheduler import schedule_for_next_day 
+from db.supabase import supabase
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 ENV = os.getenv("APP_ENV", "development")
 dotenv_path = f".env.{ENV}"
@@ -72,7 +79,35 @@ async def verify_jwt_middleware(request: Request, call_next):
     response = await call_next(request)
     return response
 
+def run_scheduler_midnight():
+    logger.info("--- Starting Midnight Task Optimization ---")
+    try:
+        users_response = supabase.table("users").select("id").execute()
+        users = users_response.data
+    except Exception as e:
+        logger.error(f"Failed to fetch users: {e}")
+        return
 
+    for user in users:
+        u_id = user['id']
+        try:
+            logger.info(f"Optimizing schedule for User: {u_id}")
+            result = schedule_for_next_day(u_id)
+            logger.info(f"Done: {result}")
+        except Exception as e:
+            # If one user fails (e.g., weird data), the loop continues to the next user
+            logger.error(f"Error scheduling for user {u_id}: {e}")
+
+    logger.info("--- Global Scheduling Complete ---")
+
+scheduler = BackgroundScheduler()
+scheduler.add_job(run_global_midnight_schedule, 'cron', hour=0, minute=0)
+scheduler.start()
+
+@app.on_event("shutdown")
+def shutdown_event():
+    scheduler.shutdown()
+    
 app.include_router(auth_router)
 app.include_router(task_router)
 app.include_router(setting_router)
