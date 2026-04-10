@@ -147,6 +147,23 @@ export function FocusComponent() {
       .finally(() => setLoading(false))
   }
 
+  const executeTimer = () => {
+    timerKey.current = setInterval(() => {
+      dispatch({ type: 'TICK' })
+    }, 1000)
+  }
+
+  const onStartPause = () => {
+    if (state.timerRunning) {
+      if (timerKey.current) clearInterval(timerKey.current)
+      dispatch({ type: 'PAUSE' })
+    } else {
+      dispatch({ type: 'START' })
+      dispatch({ type: 'TICK' })
+      executeTimer()
+    }
+  }
+
   useEffect(() => {
     if (task_id) {
       onStartPause()
@@ -171,23 +188,6 @@ export function FocusComponent() {
     }
 
     return `${strMinutes}:${strSeconds}`
-  }
-
-  const executeTimer = () => {
-    timerKey.current = setInterval(() => {
-      dispatch({ type: 'TICK' })
-    }, 1000)
-  }
-
-  const onStartPause = () => {
-    if (state.timerRunning) {
-      if (timerKey.current) clearInterval(timerKey.current)
-      dispatch({ type: 'PAUSE' })
-    } else {
-      dispatch({ type: 'START' })
-      dispatch({ type: 'TICK' })
-      executeTimer()
-    }
   }
 
   const onReload = () => {

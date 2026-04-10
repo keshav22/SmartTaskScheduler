@@ -10,6 +10,7 @@ export function LeftPanel() {
 
   const pathname = usePathname()
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (pathname.startsWith('/focus')) {
       setActiveItem(2)
