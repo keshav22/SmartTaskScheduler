@@ -29,7 +29,7 @@ export function SettingsFormComponent({
         profile: {
             title: 'Profile Details',
             fields: [
-                { name: 'name', label: 'Name:', type: 'text' },
+                { name: 'name', label: 'Name', type: 'text' },
                 { name: 'daily_free_time', label: 'Free Time', type: 'number' },
                 { name: 'session_duration', label: 'Session Duration', type: 'number' },
                 { name: 'break_duration', label: 'Break Duration', type: 'number' },
@@ -80,6 +80,7 @@ export function SettingsFormComponent({
                             <input
                                 id={field.name}
                                 type={field.type}
+                                placeholder={`Enter ${field.label}`}
                                 className="input col-span-2 w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 onChange={(e) =>
                                     setFormData((prev) => ({
