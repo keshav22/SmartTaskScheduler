@@ -1,6 +1,12 @@
 from fastapi import Request, APIRouter, HTTPException
 from utils.user import get_current_user_from_state
-from services.task import get_all_tasks, create_task, edit_task, delete_task
+from services.task import (
+    get_all_tasks,
+    create_task,
+    edit_task,
+    delete_task,
+    mark_task_done,
+)
 from pydantic import BaseModel
 
 router = APIRouter(prefix="/tasks", tags=["tasks"])
@@ -31,6 +37,13 @@ async def update_task(request: Request, task_id: int, task_data: dict):
     return response
 
 
+@router.patch("/done/{task_id}")
+async def update_task_done(request: Request, task_id: int):
+    user = get_current_user_from_state(request)
+    response = await mark_task_done(user["sub"], task_id)
+    return response
+
+
 @router.delete("/delete")
 async def delete_tasks(request: Request, payload: DeletePayload):
     try:
@@ -39,3 +52,13 @@ async def delete_tasks(request: Request, payload: DeletePayload):
         return {"success": True, "data": response}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+# @router.post("/run-global-scheduler")
+# async def trigger_global():
+#     # Now it's a clean import from services
+#     results = run_scheduler_midnight()
+#     return {
+#         "status": "Global scheduling triggered for all users",
+#         "processed": len(results)
+#     }

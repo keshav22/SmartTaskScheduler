@@ -68,7 +68,7 @@ export default function AddEditTaskDialog({
   onSave,
 }: AddEditTaskDialogProps) {
   const [taskFormState, dispatchTaskUpdate] = useReducer(reducer, { ...task })
-
+  const [saveDisabled, setSaveDisabled] = useState(false)
   useEffect(() => {
     dispatchTaskUpdate({ type: 'RESET', payload: task })
   }, [task])
@@ -125,8 +125,8 @@ export default function AddEditTaskDialog({
       errors.title = 'Title is required.'
     }
 
-    if (!taskFormState.deadline?.trim()) {
-      errors.deadline = 'Deadline is required.'
+    if (!taskFormState.duration) {
+      errors.duration = 'Duration is required.'
     }
 
     if (
@@ -139,7 +139,8 @@ export default function AddEditTaskDialog({
     setTaskFormErrors(errors)
 
     if (Object.keys(errors).length === 0) {
-      upsertAppointment()
+      setSaveDisabled(true)
+      upsertTask()
     }
   }
 
@@ -216,7 +217,7 @@ export default function AddEditTaskDialog({
           </div>
 
           <div className="space-y-1">
-            <Label htmlFor="deadline">Due Date *</Label>
+            <Label htmlFor="deadline">Due Date</Label>
             <Input
               id="deadline"
               type="datetime-local"
@@ -239,10 +240,10 @@ export default function AddEditTaskDialog({
           </div>
 
           <div className="space-y-1">
-            <Label htmlFor="duration">Duration (in minutes)</Label>
+            <Label htmlFor="duration">Duration (in minutes) *</Label>
             <Input
               id="duration"
-              placeholder="50"
+              placeholder="60"
               value={task.duration}
               type="number"
               onChange={(e) =>
@@ -253,19 +254,24 @@ export default function AddEditTaskDialog({
                 })
               }
             />
+            {taskFormErrors.duration && (
+              <p className="text-red-500 text-xs">{taskFormErrors.duration}</p>
+            )}
           </div>
           <div className="space-y-1">
             <Label htmlFor="priority">Priority</Label>
             <div id="priority" className="flex gap-3">
               <button
                 className={
-                  taskFormState.priority?.toString() == '1' ? '' : 'opacity-30'
+                  taskFormState.priority?.toString() == 'high'
+                    ? ''
+                    : 'opacity-30'
                 }
                 onClick={() => {
                   dispatchTaskUpdate({
                     type: 'SET_FIELD',
                     field: 'priority',
-                    value: '1',
+                    value: 'high',
                   })
                 }}
               >
@@ -275,13 +281,15 @@ export default function AddEditTaskDialog({
               </button>
               <button
                 className={
-                  taskFormState.priority?.toString() == '2' ? '' : 'opacity-30'
+                  taskFormState.priority?.toString() == 'medium'
+                    ? ''
+                    : 'opacity-30'
                 }
                 onClick={() => {
                   dispatchTaskUpdate({
                     type: 'SET_FIELD',
                     field: 'priority',
-                    value: '2',
+                    value: 'medium',
                   })
                 }}
               >
@@ -291,7 +299,7 @@ export default function AddEditTaskDialog({
               </button>
               <button
                 className={
-                  taskFormState.priority?.toString() == '3'
+                  taskFormState.priority?.toString() == 'low'
                     ? ''
                     : !('priority' in taskFormState)
                       ? ''
@@ -301,7 +309,7 @@ export default function AddEditTaskDialog({
                   dispatchTaskUpdate({
                     type: 'SET_FIELD',
                     field: 'priority',
-                    value: '3',
+                    value: 'low',
                   })
                 }}
               >
@@ -349,7 +357,9 @@ export default function AddEditTaskDialog({
           >
             Close
           </Button>
-          <Button onClick={handleSave}>Save</Button>
+          <Button disabled={saveDisabled} onClick={handleSave}>
+            Save
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
