@@ -11,7 +11,7 @@ from routers.focus import router as focus_router
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 from apscheduler.schedulers.background import BackgroundScheduler
-from services.scheduler import schedule_for_next_day 
+from services.scheduler import schedule_for_next_day
 from db.supabase import supabase
 import logging
 
@@ -79,6 +79,7 @@ async def verify_jwt_middleware(request: Request, call_next):
     response = await call_next(request)
     return response
 
+
 def run_scheduler_midnight():
     logger.info("--- Starting Midnight Task Optimization ---")
     try:
@@ -89,7 +90,7 @@ def run_scheduler_midnight():
         return
 
     for user in users:
-        u_id = user['id']
+        u_id = user["id"]
         try:
             logger.info(f"Optimizing schedule for User: {u_id}")
             result = schedule_for_next_day(u_id)
@@ -100,14 +101,17 @@ def run_scheduler_midnight():
 
     logger.info("--- Global Scheduling Complete ---")
 
+
 scheduler = BackgroundScheduler()
-scheduler.add_job(run_global_midnight_schedule, 'cron', hour=0, minute=0)
+scheduler.add_job(schedule_for_next_day, "cron", hour=0, minute=0)
 scheduler.start()
+
 
 @app.on_event("shutdown")
 def shutdown_event():
     scheduler.shutdown()
-    
+
+
 app.include_router(auth_router)
 app.include_router(task_router)
 app.include_router(setting_router)
