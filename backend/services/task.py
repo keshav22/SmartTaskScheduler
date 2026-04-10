@@ -13,11 +13,22 @@ async def get_all_tasks(user_id):
 
 
 async def create_task(user_id, task_data):
-    pass
+    data = {**task_data, "user_id": user_id, "status": "NOT STARTED"}
+
+    res = supabase.table("tasks").insert(data).execute()
+    return res
 
 
 async def edit_task(user_id, task_id, task_data):
-    pass
+    res = (
+        supabase.table("tasks")
+        .update(task_data)
+        .eq("task_id", task_id)
+        .eq("user_id", user_id)
+        .execute()
+    )
+
+    return res
 
 
 async def delete_task(user_id, ids):

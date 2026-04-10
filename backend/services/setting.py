@@ -6,6 +6,7 @@ async def update_settings_data(type: str, data: dict):
 
     elif type == "focus":
         # Update in db
+
         return 1
 
     else:

@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button'
 import { useEffect, useReducer, useState } from 'react'
+import { apiClient } from '@/services/api'
 
 import { type Task } from '@/lib/task-types'
 
@@ -32,7 +33,7 @@ type Action = {
     | 'title'
     | 'description'
     | 'priority'
-    | 'startTime'
+    | 'start_time'
     | 'duration'
     | 'deadline'
     | 'dependencies'
@@ -77,26 +78,44 @@ export default function AddEditTaskDialog({
   )
 
   const upsertAppointment = async () => {
-    // const payload = {
-    //   ...taskFormState,
-    //   start: moment(taskFormState.start).toISOString(),
-    //   end: moment(taskFormState.end).toISOString(),
-    // }
-    // if (!payload.id) payload.id = crypto.randomUUID()
-    // const copiedPayload = { ...payload }
-    // delete copiedPayload['markedCompleted']
-    // const { error } = await supabase
-    //   .from('appointments')
-    //   .upsert([copiedPayload], {
-    //     onConflict: 'id',
-    //     ignoreDuplicates: false,
-    //   })
-    // if (!error) {
-    //   onSave(payload as Appointment)
-    //   dispatchAppointmentUpdate({
-    //     type: 'RESET',
-    //   })
-    // }
+    try {
+      const token = localStorage.getItem("token") // or wherever you store it
+  
+      const payload = {
+        title: taskFormState.title,
+        description: taskFormState.description,
+        priority: taskFormState.priority,
+        duration: taskFormState.duration,
+        deadline: taskFormState.deadline
+          ? moment(taskFormState.deadline).toISOString()
+          : null,
+        start_time: taskFormState.start_time
+          ? moment(taskFormState.start_time).toISOString()
+          : null,
+        dependencies: taskFormState.dependencies || [],
+      }
+  
+      let data: Task
+
+      if (task?.task_id) {
+        // EDIT
+        data = await apiClient.patch(
+          `/tasks/${task.task_id}`,
+          payload,
+        )
+      } else {
+        // CREATE
+        data = await apiClient.post(
+          `/tasks/add`,
+          payload
+        )
+      }
+  
+      onSave(data) // update UI
+      onClose()
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   const handleSave = () => {
@@ -189,7 +208,7 @@ export default function AddEditTaskDialog({
               onChange={(e) =>
                 dispatchTaskUpdate({
                   type: 'SET_FIELD',
-                  field: 'startTime',
+                  field: 'start_time',
                   value: e.target.value,
                 })
               }
