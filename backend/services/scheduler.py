@@ -4,6 +4,7 @@ import json
 
 PRIORITY_MAP = {"high": 3, "medium": 2, "low": 1}
 
+PRIORITY_MAP = {"high": 3, "medium": 2, "low": 1}
 
 def schedule_for_next_day(user_id: str):
     today = datetime.now().date()
