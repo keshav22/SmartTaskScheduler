@@ -4,10 +4,26 @@ from db.supabase import supabase
 async def get_all_tasks(user_id):
     return (
         supabase.table("tasks")
-        .select(
-            "task_id, title, description, start_time, duration, priority, deadline, status, dependencies"
-        )
+        .select("""
+        task_id, title, description, start_time, duration, 
+        priority, deadline, status, dependencies
+    """)
         .eq("user_id", user_id)
+        .eq("status", "NOT STARTED")
+        .order("start_time", desc=False)
+        .execute()
+    )
+
+
+async def get_task(user_id, task_id):
+    return (
+        supabase.table("tasks")
+        .select("""
+        task_id, title, description, start_time, duration, 
+        priority, deadline, status, dependencies
+    """)
+        .eq("user_id", user_id)
+        .eq("task_id", task_id)
         .execute()
     )
 
@@ -43,3 +59,13 @@ async def delete_task(user_id, ids):
     )
 
     return res
+
+
+async def mark_task_done(user_id, task_id):
+    return (
+        supabase.table("tasks")
+        .update({"status": "DONE"})
+        .eq("user_id", user_id)
+        .eq("task_id", task_id)
+        .execute()
+    )

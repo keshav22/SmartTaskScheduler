@@ -7,6 +7,7 @@ from fastapi.responses import JSONResponse
 from routers.task import router as task_router
 from routers.auth import router as auth_router
 from routers.setting import router as setting_router
+from routers.focus import router as focus_router
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 
@@ -75,3 +76,4 @@ async def verify_jwt_middleware(request: Request, call_next):
 app.include_router(auth_router)
 app.include_router(task_router)
 app.include_router(setting_router)
+app.include_router(focus_router)

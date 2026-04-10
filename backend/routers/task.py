@@ -1,6 +1,12 @@
 from fastapi import Request, APIRouter, HTTPException
 from utils.user import get_current_user_from_state
-from services.task import get_all_tasks, create_task, edit_task, delete_task
+from services.task import (
+    get_all_tasks,
+    create_task,
+    edit_task,
+    delete_task,
+    mark_task_done,
+)
 from pydantic import BaseModel
 
 router = APIRouter(prefix="/tasks", tags=["tasks"])
@@ -28,6 +34,13 @@ async def add_task(request: Request, task_data: dict):
 async def update_task(request: Request, task_id: int, task_data: dict):
     user = get_current_user_from_state(request)
     response = await edit_task(user["sub"], task_id, task_data)
+    return response
+
+
+@router.patch("/done/{task_id}")
+async def update_task_done(request: Request, task_id: int):
+    user = get_current_user_from_state(request)
+    response = await mark_task_done(user["sub"], task_id)
     return response
 
 

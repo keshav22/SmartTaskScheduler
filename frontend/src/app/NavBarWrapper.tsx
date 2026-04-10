@@ -17,7 +17,7 @@ export default function NavWrapper({
     apiClient
       .get('/auth/me')
       .then((res) => {
-        router.replace('/focus')
+        router.replace('/tasks')
       })
       .catch((err) => {
         router.replace('/login')

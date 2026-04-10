@@ -9,35 +9,52 @@ export function LeftPanel() {
   const router = useRouter()
 
   const handleLogout = async () => {
-    try{
-      const res = await fetch("http://localhost:8000/auth/logout", {
-        method: "POST",
+    try {
+      const res = await fetch('http://localhost:8000/auth/logout', {
+        method: 'POST',
         headers: {
-          "Content-type": "application/json",
+          'Content-type': 'application/json',
         },
-        credentials: "include",
-      });
+        credentials: 'include',
+      })
 
-      if (res.ok){
-        window.location.href = "/login";
+      if (res.ok) {
+        window.location.href = '/login'
+      } else {
+        console.error('Logout failed on server')
       }
-      else{
-        console.error("Logout failed on server");
-      }
+    } catch (err) {
+      console.error('Network error during logout:', err)
     }
-    catch (err){
-      console.error("Network error during logout:", err);
-    }
-  };
+  }
 
   return (
     <div className="bg-white border-r border-[#d4d1d1] w-3xs flex flex-col pt-10 px-3 h-screen fixed left-0 top-0">
       <div className="flex flex-col gap-4">
         <PanelItem
-          name="Focus"
-          path="/focus"
+          name="Tasks"
+          path="/tasks"
           onClick={() => setActiveItem(1)}
           active={activeItem === 1}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20px"
+            height="20px"
+            viewBox="0 0 640 640"
+          >
+            <path
+              fill="currentColor"
+              d="M197.8 100.3c10.9 7.6 13.5 22.6 5.9 33.4l-56 80c-4.1 5.8-10.5 9.5-17.6 10.1S116 222 111 217l-40-40c-9.3-9.4-9.3-24.6 0-34s24.6-9.3 34 0l19.8 19.8l39.6-56.6c7.6-10.9 22.6-13.5 33.4-5.9m0 160c10.9 7.6 13.5 22.6 5.9 33.4l-56 80c-4.1 5.8-10.5 9.5-17.6 10.1S116 382 111 377l-40-40c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l19.8 19.8l39.6-56.6c7.6-10.9 22.6-13.5 33.4-5.9zM288 160c0-17.7 14.3-32 32-32h224c17.7 0 32 14.3 32 32s-14.3 32-32 32H320c-17.7 0-32-14.3-32-32m0 160c0-17.7 14.3-32 32-32h224c17.7 0 32 14.3 32 32s-14.3 32-32 32H320c-17.7 0-32-14.3-32-32m-64 160c0-17.7 14.3-32 32-32h288c17.7 0 32 14.3 32 32s-14.3 32-32 32H256c-17.7 0-32-14.3-32-32m-96-40c22.1 0 40 17.9 40 40s-17.9 40-40 40s-40-17.9-40-40s17.9-40 40-40"
+            />
+          </svg>
+        </PanelItem>
+
+        <PanelItem
+          name="Focus"
+          path="/focus"
+          onClick={() => setActiveItem(2)}
+          active={activeItem === 2}
         >
           <svg
             width="20px"
@@ -46,7 +63,13 @@ export function LeftPanel() {
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <circle cx="12" cy="12" r="8" stroke="currentColor" strokeWidth="2" />
+            <circle
+              cx="12"
+              cy="12"
+              r="8"
+              stroke="currentColor"
+              strokeWidth="2"
+            />
             <line
               x1="11"
               y1="1.5"
@@ -71,25 +94,6 @@ export function LeftPanel() {
         </PanelItem>
 
         <PanelItem
-          name="Tasks"
-          path="/tasks"
-          onClick={() => setActiveItem(2)}
-          active={activeItem === 2}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20px"
-            height="20px"
-            viewBox="0 0 640 640"
-          >
-            <path
-              fill="currentColor"
-              d="M197.8 100.3c10.9 7.6 13.5 22.6 5.9 33.4l-56 80c-4.1 5.8-10.5 9.5-17.6 10.1S116 222 111 217l-40-40c-9.3-9.4-9.3-24.6 0-34s24.6-9.3 34 0l19.8 19.8l39.6-56.6c7.6-10.9 22.6-13.5 33.4-5.9m0 160c10.9 7.6 13.5 22.6 5.9 33.4l-56 80c-4.1 5.8-10.5 9.5-17.6 10.1S116 382 111 377l-40-40c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l19.8 19.8l39.6-56.6c7.6-10.9 22.6-13.5 33.4-5.9zM288 160c0-17.7 14.3-32 32-32h224c17.7 0 32 14.3 32 32s-14.3 32-32 32H320c-17.7 0-32-14.3-32-32m0 160c0-17.7 14.3-32 32-32h224c17.7 0 32 14.3 32 32s-14.3 32-32 32H320c-17.7 0-32-14.3-32-32m-64 160c0-17.7 14.3-32 32-32h288c17.7 0 32 14.3 32 32s-14.3 32-32 32H256c-17.7 0-32-14.3-32-32m-96-40c22.1 0 40 17.9 40 40s-17.9 40-40 40s-40-17.9-40-40s17.9-40 40-40"
-            />
-          </svg>
-        </PanelItem>
-
-        <PanelItem
           name="Settings"
           path="/settings"
           onClick={() => setActiveItem(3)}
@@ -108,20 +112,32 @@ export function LeftPanel() {
         </PanelItem>
       </div>
 
-      <div className="mt-auto mb-10"> 
-        <button 
+      <div className="mt-auto mb-10">
+        <button
           onClick={handleLogout}
           className="flex items-center gap-3 w-full px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg transition-colors font-semibold"
         >
-          <svg 
-            width="20px" 
-            height="20px" 
-            viewBox="0 0 24 24" 
-            fill="none" 
+          <svg
+            width="20px"
+            height="20px"
+            viewBox="0 0 24 24"
+            fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <path d="M15 12H3M3 12L7 8M3 12L7 16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            <path d="M9 21H17C19.2091 21 21 19.2091 21 17V7C21 4.79086 19.2091 3 17 3H9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path
+              d="M15 12H3M3 12L7 8M3 12L7 16"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M9 21H17C19.2091 21 21 19.2091 21 17V7C21 4.79086 19.2091 3 17 3H9"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
           </svg>
           Logout
         </button>
