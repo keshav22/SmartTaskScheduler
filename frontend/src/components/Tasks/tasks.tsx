@@ -61,6 +61,8 @@ export function TasksPageComponent() {
     })
   }
 
+  // const user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user") as string) : null;
+
   return (
     <div>
       <div className="flex flex-col gap-[30px] px-[48px] pt-[54px]">
@@ -134,6 +136,7 @@ export function TasksPageComponent() {
               <TableRow>
                 <TableHead></TableHead>
                 <TableHead>Title</TableHead>
+                <TableHead>Start Time</TableHead>
                 <TableHead>Due Date</TableHead>
                 <TableHead>Priority</TableHead>
                 <TableHead>Duration (in mins)</TableHead>
@@ -174,6 +177,16 @@ export function TasksPageComponent() {
                       </TableCell>
                       <TableCell className="text-[#181B1B]">
                         {task.title}
+                      </TableCell>
+                      <TableCell className="text-[#181B1B]">
+                        {task.start_time
+                        ? new Date(task.start_time).toLocaleString("en-IN", {
+                          day: "numeric",
+                          month: "short",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                          })
+                        : ""}
                       </TableCell>
                       <TableCell>
                         {task.deadline
