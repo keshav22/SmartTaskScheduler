@@ -4,7 +4,17 @@ import json
 
 PRIORITY_MAP = {"high": 3, "medium": 2, "low": 1}
 
-PRIORITY_MAP = {"high": 3, "medium": 2, "low": 1}
+
+def parse_to_naive(dt_str: str):
+    """Safely converts any ISO string to a naive datetime object."""
+    if not dt_str:
+        return None
+    try:
+        # fromisoformat handles the Z and +00:00,
+        # .replace(tzinfo=None) strips the 'aware' part.
+        return datetime.fromisoformat(dt_str).replace(tzinfo=None)
+    except (ValueError, TypeError):
+        return None
 
 
 def schedule_for_next_day(user_id: str):
@@ -43,7 +53,7 @@ def schedule_for_next_day(user_id: str):
             continue
 
         if start_time_str:
-            st_dt = datetime.fromisoformat(start_time_str).replace(tzinfo=None)
+            st_dt = parse_to_naive(start_time_str)
             if st_dt.date() == tomorrow:
                 fixed_tmrw.append(t)
                 satisfied_task_ids.add(tid)
@@ -89,15 +99,13 @@ def schedule_for_next_day(user_id: str):
         # Sort: Deadline first, then Priority
         ready_tasks.sort(
             key=lambda x: (
-                datetime.fromisoformat(x["deadline"].replace(tzinfo=None))
-                if x.get("deadline")
-                else datetime(9999, 12, 31),
+                parse_to_naive(x.get("deadline")) or datetime(9999, 12, 31),
                 -PRIORITY_MAP.get(str(x.get("priority", "low")).lower(), 1),
             )
         )
 
         task = ready_tasks[0]
-        duration = task.get("duration", 0)
+        duration = task.get("duration") or 0
 
         if duration <= remaining_time:
             # Handle collisions with fixed tasks
@@ -105,9 +113,7 @@ def schedule_for_next_day(user_id: str):
             while collision:
                 collision = False
                 for fixed in fixed_tmrw:
-                    f_start = datetime.fromisoformat(fixed["start_time"]).replace(
-                        tzinfo=None
-                    )
+                    f_start = parse_to_naive(fixed.get("start_time"))
                     f_end = f_start + timedelta(minutes=fixed.get("duration", 0))
                     if (
                         current_time_pointer < f_end
