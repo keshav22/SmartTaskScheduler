@@ -79,8 +79,8 @@ export default function AddEditTaskDialog({
 
   const upsertAppointment = async () => {
     try {
-      const token = localStorage.getItem("token") // or wherever you store it
-  
+      const token = localStorage.getItem('token') // or wherever you store it
+
       const payload = {
         title: taskFormState.title,
         description: taskFormState.description,
@@ -94,23 +94,17 @@ export default function AddEditTaskDialog({
           : null,
         dependencies: taskFormState.dependencies || [],
       }
-  
+
       let data: Task
 
       if (task?.task_id) {
         // EDIT
-        data = await apiClient.patch(
-          `/tasks/${task.task_id}`,
-          payload,
-        )
+        data = await apiClient.patch(`/tasks/edit/${task.task_id}`, payload)
       } else {
         // CREATE
-        data = await apiClient.post(
-          `/tasks/add`,
-          payload
-        )
+        data = await apiClient.post(`/tasks/add`, payload)
       }
-  
+
       onSave(data) // update UI
       onClose()
     } catch (err) {
