@@ -22,7 +22,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
     allow_headers=["Origin", "Content-Type", "Authorization"],
 )
 
@@ -53,6 +53,7 @@ async def verify_jwt_middleware(request: Request, call_next):
     if not token:
         return JSONResponse(status_code=401, content={"detail": "Missing token"})
 
+    print(token)
     try:
         payload = jwt.decode(
             token,

@@ -14,6 +14,11 @@ class ApiClient {
       cache: 'no-store',
     })
 
+    if(res.status === 401) {
+      console.log('Unauthorized, redirecting to login')
+      window.location.assign('/login')
+    }
+
     if (!res.ok) {
       throw new Error(`API error: ${res.status}`)
     }
@@ -30,6 +35,11 @@ class ApiClient {
       credentials: 'include',
       body: JSON.stringify(body),
     })
+
+    if(res.status === 401) {
+      console.log('Unauthorized, redirecting to login')
+      window.location.assign('/login')
+    }
 
     if (!res.ok) {
       throw new Error(`API error: ${res.status}`)
@@ -48,6 +58,10 @@ class ApiClient {
       body: JSON.stringify(body),
     })
 
+    if(res.status === 401) {
+      window.location.href = '/login'
+    }
+
     if (!res.ok) {
       throw new Error(`API error: ${res.status}`)
     }
@@ -60,10 +74,15 @@ class ApiClient {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
-        credentials: 'include',
       },
+      credentials: 'include',
       body: JSON.stringify(body),
     })
+
+    if(res.status === 401) {
+      window.location.href = '/login'
+      
+    }
 
     if (!res.ok) {
       throw new Error(`API error: ${res.status}`)
