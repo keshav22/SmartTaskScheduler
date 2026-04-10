@@ -137,7 +137,7 @@ export function TasksPageComponent() {
                 <TableHead></TableHead>
                 <TableHead>Title</TableHead>
                 <TableHead>Start Time</TableHead>
-                <TableHead>Due Date</TableHead>
+                <TableHead>Deadline</TableHead>
                 <TableHead>Priority</TableHead>
                 <TableHead>Duration (in mins)</TableHead>
                 <TableHead>Focus</TableHead>
