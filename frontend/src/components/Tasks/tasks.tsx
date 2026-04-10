@@ -134,6 +134,7 @@ export function TasksPageComponent() {
               <TableRow>
                 <TableHead></TableHead>
                 <TableHead>Title</TableHead>
+                <TableHead>Start Time</TableHead>
                 <TableHead>Due Date</TableHead>
                 <TableHead>Priority</TableHead>
                 <TableHead>Duration (in mins)</TableHead>
@@ -174,6 +175,9 @@ export function TasksPageComponent() {
                       </TableCell>
                       <TableCell className="text-[#181B1B]">
                         {task.title}
+                      </TableCell>
+                      <TableCell className="text-[#181B1B]">
+                        {task.start_time}
                       </TableCell>
                       <TableCell>
                         {task.deadline
