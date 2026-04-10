@@ -123,6 +123,7 @@ export function FocusComponent() {
       .get(url)
       .then((res) => {
         const response = res as FocusResponse
+
         if (set) {
           if (response.current_task) {
             setCurrentTask(response.current_task)
@@ -147,7 +148,13 @@ export function FocusComponent() {
   }
 
   useEffect(() => {
+    if (task_id) {
+      onStartPause()
+    }
     fetch_details()
+    return () => {
+      if (timerKey.current) clearInterval(timerKey.current)
+    }
   }, [])
 
   const getFormattedTime = () => {
@@ -187,25 +194,24 @@ export function FocusComponent() {
     dispatch({ type: 'RELOAD' })
   }
 
-  useEffect(() => {
-    return () => {
-      if (timerKey.current) clearInterval(timerKey.current)
-    }
-  }, [])
-
   const handleNextTask = () => {
     apiClient
       .patch(`/tasks/done/${currentTask?.task_id}`, {})
       .then((res) => {
         dispatch({ type: 'RESET' })
         if (timerKey.current) clearInterval(timerKey.current)
-        setCurrentTask(nextTask)
+
         if (nextTask) {
           setTotalSession(Math.ceil(nextTask.duration! / time))
+          setCurrentTask(nextTask)
           fetch_details(false)
         }
 
         setTotalTasksLeft(totalTasksLeft - 1)
+        if (totalTasksLeft - 1 < 0) {
+          setCurrentTask(null)
+          setNextTask(null)
+        }
       })
       .catch((err) => {
         console.error('Error fetching tasks:', err)

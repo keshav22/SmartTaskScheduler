@@ -16,9 +16,12 @@ import { Input } from '../ui/input'
 import { Checkbox } from '../ui/checkbox'
 import AddEditTaskDialog from './add-edit-task-dialog'
 import { Task } from '@/lib/task-types'
+import { useRouter } from 'next/navigation'
 
 export function TasksPageComponent() {
   const [tasks, setTasks] = useState<Task[]>([])
+  const [anotherSetofTasks, setAnotherSetofTasks] = useState<Task[]>([])
+  const router = useRouter()
   const [loading, setLoading] = useState(true)
 
   const [addEditTask, setAddEditTask] = useState<Task>({} as Task)
@@ -26,19 +29,28 @@ export function TasksPageComponent() {
 
   const [checkedTaskListIds, setCheckedTaskListIds] = useState<string[]>([])
 
-  useEffect(() => {
+  const fetchDetails = () => {
     apiClient
       .get('/tasks')
       .then((res) => {
         setTasks(res as Task[])
+        setAnotherSetofTasks(res as Task[])
       })
       .catch((err) => {
         console.error('Error fetching tasks:', err)
       })
       .finally(() => setLoading(false))
+  }
+
+  useEffect(() => {
+    fetchDetails()
   }, [])
 
   const bulkDelete = async () => {
+    if (checkedTaskListIds.length == 0) {
+      alert('Select some items to delete!!')
+      return
+    }
     apiClient.delete('/tasks/delete', { ids: checkedTaskListIds }).then(() => {
       setTasks(
         tasks.filter(
@@ -87,6 +99,13 @@ export function TasksPageComponent() {
           <Input
             className="float-right w-[192px] h-[36px]"
             placeholder={'Quick filter...'}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              setTasks(
+                anotherSetofTasks.filter((x: Task) =>
+                  x.title.toLowerCase().includes(e.target.value.toLowerCase()),
+                ),
+              )
+            }}
           />
         </div>
         <div className="flex items-center text-[#919797] gap-4">
@@ -118,6 +137,8 @@ export function TasksPageComponent() {
                 <TableHead>Due Date</TableHead>
                 <TableHead>Priority</TableHead>
                 <TableHead>Duration (in mins)</TableHead>
+                <TableHead>Focus</TableHead>
+                <TableHead>Edit</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -135,7 +156,7 @@ export function TasksPageComponent() {
                     <TableRow key={index}>
                       <TableCell>
                         <Checkbox
-                          key={index}
+                          key={task.task_id}
                           onCheckedChange={(checked: boolean) => {
                             if (checked) {
                               checkedTaskListIds.push(task.task_id.toString())
@@ -155,18 +176,20 @@ export function TasksPageComponent() {
                         {task.title}
                       </TableCell>
                       <TableCell>
-                        {new Date(task.deadline).toLocaleDateString()}
+                        {task.deadline
+                          ? new Date(task.deadline).toLocaleDateString()
+                          : '-'}
                       </TableCell>
                       <TableCell>
-                        {task.priority == 1 ? (
+                        {task.priority == 'high' ? (
                           <div className="w-fit border-1 text-red-700 border-[#E0525233] px-[10px] py-[3px] text-sm rounded-xl">
                             High
                           </div>
-                        ) : task.priority == 2 ? (
+                        ) : task.priority == 'medium' ? (
                           <div className="w-fit border-1 text-yellow-700 border-[var(--color-yellow-200)] px-[10px] py-[3px] text-sm rounded-xl">
                             Medium
                           </div>
-                        ) : task.priority == 3 ? (
+                        ) : task.priority == 'low' ? (
                           <div className="w-fit border-1 text-green-700 border-[var(--color-green-200)] px-[10px] py-[3px] text-sm rounded-xl">
                             Low
                           </div>
@@ -175,9 +198,21 @@ export function TasksPageComponent() {
                         )}
                       </TableCell>
                       <TableCell>{task.duration}</TableCell>
-                      <TableRow>
+                      <TableCell colSpan={3}>
+                        <ButtonComponent
+                          type="primary"
+                          className="w-[80px] h-[30px]"
+                          onClick={() => {
+                            router.push(`/focus?task_id=${task.task_id}`)
+                          }}
+                        >
+                          {' '}
+                          Start{' '}
+                        </ButtonComponent>
+                      </TableCell>
+                      <TableCell>
                         <button
-                          className="pt-[12px]"
+                          className="pt-[12px] cursor-pointer"
                           onClick={() => {
                             setAddEditTask(task)
                             setOpenEditAddTaskModel(true)
@@ -198,7 +233,7 @@ export function TasksPageComponent() {
                             />
                           </svg>
                         </button>
-                      </TableRow>
+                      </TableCell>
                     </TableRow>
                   )
                 })
@@ -213,7 +248,10 @@ export function TasksPageComponent() {
         task={addEditTask as Task}
         openDialog={openEditAddTaskModal}
         onClose={() => setOpenEditAddTaskModel(false)}
-        onSave={() => {}}
+        onSave={() => {
+          setLoading(true)
+          fetchDetails()
+        }}
       />
     </div>
   )
