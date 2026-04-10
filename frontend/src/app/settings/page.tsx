@@ -5,7 +5,7 @@ import { SettingsFormComponent } from '@/components/setting/form'
 import { useState } from 'react'
 
 export default function SettingsPage() {
-  const [activeTab, setActiveTab] = useState<'profile' | 'focus'>(
+  const [activeTab, setActiveTab] = useState<'profile'>(
     'profile'
   )
 

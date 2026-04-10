@@ -2,7 +2,7 @@
 
 import './setting.css'
 
-type TabType = 'profile' | 'focus'
+type TabType = 'profile'
 
 interface SettingsTabsComponentProps {
   activeTab: TabType
