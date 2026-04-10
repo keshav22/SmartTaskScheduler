@@ -4,7 +4,6 @@ from fastapi import Request, APIRouter, HTTPException
 from services.focus import get_focus_page_details
 from utils.user import get_current_user_from_state
 
-
 router = APIRouter(prefix="/focus", tags=["tasks"])
 
 

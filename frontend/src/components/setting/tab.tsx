@@ -2,7 +2,7 @@
 
 import './setting.css'
 
-type TabType = 'profile' | 'focus'
+type TabType = 'profile'
 
 interface SettingsTabsComponentProps {
   activeTab: TabType
@@ -15,7 +15,6 @@ export function SettingsTabsComponent({
 }: SettingsTabsComponentProps) {
   const tabs: { label: string; value: TabType }[] = [
     { label: 'Profile details', value: 'profile' },
-    { label: 'Focus Rhythms', value: 'focus' },
   ]
 
   return (
