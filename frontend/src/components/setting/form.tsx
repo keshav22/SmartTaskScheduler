@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react'
 import { apiClient } from '@/services/api'
 import './setting.css'
 
-type TabType = 'profile' | 'focus'
+type TabType = 'profile'
 type FormDataType = Record<string, string | boolean>
 
 interface SettingsFormComponentProps {
