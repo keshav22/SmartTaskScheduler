@@ -20,7 +20,7 @@ async def get_focus_page_details(user_id, task_id):
         current_task = tasks[0]
 
     if len(tasks) > 1:
-        if tasks[0]["task_id"] != task_id:  # type: ignore
+        if task_id and tasks[0]["task_id"] != task_id:  # type: ignore
             next_task = tasks[0]
         else:
             next_task = tasks[1]
