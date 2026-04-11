@@ -138,13 +138,20 @@ export function FocusComponent() {
           setTime(response.user_setting.session_duration)
           setPauseTime(response.user_setting.break_duration)
           setTotalTasksLeft(response.total_tasks - 1)
+
+          dispatch({ type: 'RESET' })
         }
         if (response.next_task) setNextTask(response.next_task)
       })
       .catch((err) => {
         console.error('Error fetching tasks:', err)
       })
-      .finally(() => setLoading(false))
+      .finally(() => {
+        if (task_id) {
+          onStartPause()
+        }
+        setLoading(false)
+      })
   }
 
   const executeTimer = () => {
@@ -165,9 +172,6 @@ export function FocusComponent() {
   }
 
   useEffect(() => {
-    if (task_id) {
-      onStartPause()
-    }
     fetch_details()
     return () => {
       if (timerKey.current) clearInterval(timerKey.current)
