@@ -94,3 +94,13 @@ This project uses **GitHub Actions**. Any push to the `main` branch or a Pull Re
 
 - Frontend linting and testing via `pnpm`.
 - Backend linting (Ruff) and testing (Pytest) via `uv`.
+
+## ⚙️ Running the Task Scheduler
+The application includes an intelligent background scheduler that runs automatically at midnight to organize the next day's tasks.
+
+To manually trigger the optimization logic (useful for testing or demos) without waiting for midnight, run the following command from the `backend` directory:
+```bash
+uv run python test.py
+```
+
+This scans all users in the database, analyzes their "Floating Tasks" (tasks without a start time), checks for the constraints and fits tasks into the user's `daily_free_time` window. Then it updates Supabase `tasks` table with newly calculated `start_time` values.
