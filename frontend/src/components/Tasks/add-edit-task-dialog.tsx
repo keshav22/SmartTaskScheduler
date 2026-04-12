@@ -333,7 +333,6 @@ export default function AddEditTaskDialog({
               <SelectContent>
                 {AllTasks.map((task: Task) => (
                   <SelectItem key={task.task_id} value={task.task_id}>
-                    {task.task_id}
                     {task.title}
                   </SelectItem>
                 ))}
